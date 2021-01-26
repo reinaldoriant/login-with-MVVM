@@ -17,7 +17,7 @@ class LoginViewModel(private val db: AppDb, private val pref: SharedPref) : View
             val userEntity = db
                 .dataUser().fetchUserbyName(username)
             launch(Dispatchers.Main) {
-                if (username == userEntity?.nama) {
+                if (username == userEntity.nama) {
                     pref.isLogin = true
                     pref.id = userEntity.id
                     navigator?.onSuccess()
