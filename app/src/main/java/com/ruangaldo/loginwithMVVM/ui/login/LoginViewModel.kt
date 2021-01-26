@@ -1,7 +1,8 @@
 package com.ruangaldo.loginwithMVVM.ui.login
 
 import androidx.lifecycle.ViewModel
-import com.blank.ch6_ex.data.db.AppDb
+import androidx.lifecycle.ViewModelProvider
+import com.ruangaldo.loginwithMVVM.data.db.AppDb
 import com.ruangaldo.loginwithMVVM.data.local.SharedPref
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -19,7 +20,7 @@ class LoginViewModel(private val db: AppDb, private val pref: SharedPref) : View
                 if (username == userEntity?.nama) {
                     pref.isLogin = true
                     pref.id = userEntity.id
-                    navigator?.onSuccess(userEntity.id)
+                    navigator?.onSuccess()
                 } else {
                     navigator?.onError("Username atau password kamuuhh salah!!")
                 }
@@ -28,6 +29,13 @@ class LoginViewModel(private val db: AppDb, private val pref: SharedPref) : View
     }
 
     fun checkIsLogin(): Boolean = pref.isLogin == true
+    class Factory(private val db: AppDb, private val pref: SharedPref):ViewModelProvider.Factory{
+        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+            return LoginViewModel(db, pref) as T
+        }
+
+
+    }
     /*override fun login(username: String, passwrd: String) {
         val appDb = App.appDb
 
